@@ -15,15 +15,17 @@ Including another URLconf
 """
 
 from django.urls import path
-
 from django.conf.urls import *
-from django.contrib.auth import views as auth_views
 from manager_dashboard import views as manager_dashboard_views
-
+from django.contrib import admin
 urlpatterns = [
+    path('admin/', admin.site.urls, name='admin'),
     path('home/', manager_dashboard_views.home, name='home'),
     path('contact/', manager_dashboard_views.contact, name='contact'),
     path('login/', manager_dashboard_views.login, name='login'),
+    path('register/',manager_dashboard_views.register, name='register'),
     path('index/', manager_dashboard_views.index, name='index'),
     path('monitor/', manager_dashboard_views.monitor, name='monitor'),
+    path('logout/', manager_dashboard_views.logout, name='logout'),
+    url(r'captcha', include('captcha.urls'))
 ]

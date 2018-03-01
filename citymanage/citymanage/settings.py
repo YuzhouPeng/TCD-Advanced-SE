@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
@@ -26,6 +25,15 @@ SECRET_KEY = 'xdp6fpn@p1g3of)7e^c*m306h-6x15#fql_z74tu0#09i_@j!8'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+#SERVER_EMAIL = 'pengyuzhou2017@sina.com'
+#ADMINS = ('pengyuzhou', 'ypeng@tcd.ie'),
+# 404 error, send email
+# SEND_BROKEN_LINK_EMAILS = True
+# MANAGERS = ADMINS
+# EMAIL_HOST = 'smtp.sina.com'
+# EMAIL_HOST_USER = 'pengyuzhou760783896@gmail.com'
+# EMAIL_HOST_PASSWORD = 'pengyuzhou2017'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 
 # Application definition
@@ -38,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'captcha',
 ]
 
 MIDDLEWARE = [
@@ -71,7 +80,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'citymanage.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
@@ -83,7 +91,6 @@ DATABASES = {
         'PASSWORD': 'password',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -103,6 +110,74 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Redis cache
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': '127.0.0.1:6379',
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    },
+}
+
+# # Logging configuration, could be used in sending error report
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': True,
+#     'formatters': {
+#        'standard': {
+#             'format': '%(asctime)s [%(threadName)s:%(thread)d] [%(name)s:%(lineno)d] [%(module)s:%(funcName)s] [%(levelname)s]- %(message)s'}
+#     },
+#     'filters': {
+#         'require_debug_false': {
+#                 '()': 'django.utils.log.RequireDebugFalse',
+#             }
+#     },
+#     'handlers': {
+#         'null': {
+#             'level': 'DEBUG',
+#             'class': 'logging.NullHandler',
+#         },
+#         'mail_admins': {
+#             'level': 'ERROR',
+#             'class': 'django.utils.log.AdminEmailHandler',
+#             'filters': ['require_debug_false'],# 仅当 DEBUG = False 时才发送邮件
+#             'include_html': True,
+#         },
+#         'debug': {
+#             'level':'DEBUG',
+#             'class':'logging.handlers.RotatingFileHandler',
+#             'filename': os.path.join(BASE_DIR, "log",'debug.log'),#日志输出文件
+#             'maxBytes':1024*1024*5,
+#             'backupCount': 5,
+#             'formatter':'standard',
+#         },
+#         'console':{
+#             'level': 'DEBUG',
+#             'class': 'logging.StreamHandler',
+#             'formatter': 'standard',
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console'],
+#             'level': 'DEBUG',
+#             'propagate': False
+#         },
+#         'django.request': {
+#             'handlers': ['debug','mail_admins'],
+#             'level': 'ERROR',
+#             'propagate': True,
+#         },
+#         #
+#         'django.security.DisallowedHost': {
+#             'handlers': ['null'],
+#             'propagate': False,
+#         },
+#     }
+#
+# }
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
@@ -116,7 +191,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/

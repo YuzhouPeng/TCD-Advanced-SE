@@ -9,8 +9,8 @@ BIKE_API = 'https://api.jcdecaux.com/vls/v1/stations?contract=Dublin&apiKey=64a2
 BUS_API_STATIC = 'http://data.dublinked.ie/cgi-bin/rtpi/busstopinformation?stopid=&format=json'
 BUS_API_REALTIME_TEMPLATE = 'https://data.dublinked.ie/cgi-bin/rtpi/realtimebusinformation?stopid={}&format=json'
 STOPS_ID = []
-MIN_ROUTE_TO_FILTER = 5
-r = redis.StrictRedis(host='localhost', port=6379, db=0)
+MIN_ROUTE_TO_FILTER = 6
+r = redis.StrictRedis(host='redis', port=6379, db=0)
 TIME_FOR_SLEEP = 300
 
 
@@ -87,6 +87,7 @@ def requestAllBusStatic(api=BUS_API_STATIC):
     global STOPS_ID
     STOPS_ID = filter(lambda dic: len(dic['routes']) > MIN_ROUTE_TO_FILTER, parsed_bus_status)
     STOPS_ID = list(map(lambda dic: dic['ID'], STOPS_ID))
+    # print(STOPS_ID)
     return parsed_bus_status
 
 
@@ -121,6 +122,7 @@ def requestABusRealTime(stop_ID, template=BUS_API_REALTIME_TEMPLATE):
 
 
 def requestAllBusRealTime(stop_ID_list=STOPS_ID, template=BUS_API_REALTIME_TEMPLATE):
+    # print(stop_ID_list)
     bus_status_realtime_generator = map(requestABusRealTime, stop_ID_list)
     bus_status_realtime_generator = filter(lambda status: status[1] is not None, bus_status_realtime_generator)
     bus_status_realtime_generator = map(lambda status: {status[0]: status[1]}, bus_status_realtime_generator)
@@ -144,11 +146,13 @@ def runDaemon():
         bike_realtime = requestAllBikeRealtime()
         saveToRedis('BIKE_REALTIME', bike_realtime)
         print('BIKE_REALTIME written')
-        bus_realtime = requestAllBusRealTime()
-        saveToRedis('BUS_REALTIME', bike_realtime)
+        print('STop_ID: \n', len(STOPS_ID))
+        bus_realtime = requestAllBusRealTime(STOPS_ID) # attention! here is a trap, default parameter will be set when initialized
+        saveToRedis('BUS_REALTIME', bus_realtime)
         print('BUS_REALTIME writen')
         time.sleep(TIME_FOR_SLEEP)
 
 
 if __name__ == "__main__":
     runDaemon()
+    # requestAllBikeRealtime()

@@ -15,3 +15,10 @@ services:
     depends_on:
       - db
       - redis
+  crawler:
+    build: .
+    volumes:
+      -  .:/code
+    command: python3 crawler.py
+    depends_on:
+      - redis

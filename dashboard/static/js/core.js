@@ -1,15 +1,17 @@
+'use strict';
+
+import * as map from './map.js';
+
 let selectedIndex = 0;
 let views = null;
 let barItems = null;
 let headerTitle = null;
 let titles = ['Station', 'Emission', 'Monitor', 'About'];
 
-document.write('<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAN-k2Z0JpTVPPzGkt61YImxgxTf4PUzk0&language=en"></script>')
-
-window.onload = function() {
+window.onload = () => {
     init();
-    addEvents();
-    loadMap();
+    map.loadMap();
+    addListeners();
 };
 
 function init() {
@@ -25,19 +27,10 @@ function init() {
     views[selectedIndex].style.visibility = 'visible';
 }
 
-function loadMap() {
-    let canvas = document.getElementById('map');
-    let options = {
-        center: new google.maps.LatLng(53.343507, -6.253920),
-        zoom: 16
-    };
-    new google.maps.Map(canvas, options);
-}
-
-function addEvents() {
+function addListeners() {
     for (let item of barItems) {
         item.addEventListener('mouseup', function(event) {
-            let target = event.target
+            let target = event.target;
             if (target === barItems[selectedIndex]){ return; }
             let idx = [].indexOf.call(barItems, target);
 

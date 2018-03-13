@@ -19,24 +19,35 @@ export default class MapController {
         let that = this;
         addEventListener(DataRetriever.DATA_UPDATED_EVENT, function (e) {
             parseToJson(e);
-            for (let i = 0; i < e.bikeRealtime.length; i++) {
+            // for (let i = 0; i < e.bikeRealtime.length; i++) {
+            //     let contentString = '<div id="content">' +
+            //         '<div id="siteNotice">' + '</div>' +
+            //         '<h1 id="firstHeading" class="firstHeading">' +
+            //         e.bikeRealtime[i].name + '<br>' +
+            //         'Available bikes: ' + e.bikeRealtime[i].bike_available + '<br>' +
+            //         'Free stands: ' + (e.bikeRealtime[i].bike_stands - e.bikeRealtime[i].bike_available) +
+            //         '</h1>';
+            //
+            //     createMarker(e.bikeRealtime[i].name, e.bikeRealtime[i].latitude, e.bikeRealtime[i].longitude, contentString)
+            // }
+
+            for (let i = 0; i < e.busStations.length; i++) {
                 let contentString = '<div id="content">' +
                     '<div id="siteNotice">' + '</div>' +
                     '<h1 id="firstHeading" class="firstHeading">' +
-                    e.bikeRealtime[i].name + '<br>' +
-                    'Available bikes: ' + e.bikeRealtime[i].bike_available + '<br>' +
-                    'Free stands: ' + (e.bikeRealtime[i].bike_stands - e.bikeRealtime[i].bike_available) +
+                    'No.' + e.busStations[i].ID + ': ' + e.busStations[i].name + '<br>' +
+                    'Routes: ' + e.busStations[i].routes + '<br>' +
                     '</h1>';
 
-                createMarker(e.bikeRealtime[i].name, e.bikeRealtime[i].latitude, e.bikeRealtime[i].longitude, contentString)
+                createMarker(e.busStations[i].name, e.busStations[i].latitude, e.busStations[i].longitude, contentString)
             }
+
 
             let infoWindow = new google.maps.InfoWindow({});
 
             function parseToJson(e) {
                 for (let i = 1; i < Object.keys(e).length; i++) {
                     e[Object.keys(e)[i]] = JSON.parse(e[Object.keys(e)[i]]);
-                    console.log(e)
                 }
             }
 

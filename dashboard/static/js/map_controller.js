@@ -16,8 +16,10 @@ export default class MapController {
     }
 
     addListeners() {
-        addEventListener(DataRetriever.DATA_UPDATED_EVENT, (event) => {
-            alert(event.type);
+        addEventListener(DataRetriever.DATA_UPDATED_EVENT, function (e) {
+            alert(e.bikeRealtime);
+            alert(e.busRealtime);
+            alert(e.busStations);
             // update map markers
         });
     }

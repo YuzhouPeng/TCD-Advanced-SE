@@ -19,17 +19,19 @@ export default class MapController {
         let that = this;
         addEventListener(DataRetriever.DATA_UPDATED_EVENT, function (e) {
             parseToJson(e);
-            // for (let i = 0; i < e.bikeRealtime.length; i++) {
-            //     let contentString = '<div id="content">' +
-            //         '<div id="siteNotice">' + '</div>' +
-            //         '<h1 id="firstHeading" class="firstHeading">' +
-            //         e.bikeRealtime[i].name + '<br>' +
-            //         'Available bikes: ' + e.bikeRealtime[i].bike_available + '<br>' +
-            //         'Free stands: ' + (e.bikeRealtime[i].bike_stands - e.bikeRealtime[i].bike_available) +
-            //         '</h1>';
-            //
-            //     createMarker(e.bikeRealtime[i].name, e.bikeRealtime[i].latitude, e.bikeRealtime[i].longitude, contentString)
-            // }
+            let bikeIcon = "http://127.0.0.1:8887/bike-ico.png";
+            let busIcon = "http://127.0.0.1:8887/bus-ico.png";
+            for (let i = 0; i < e.bikeRealtime.length; i++) {
+                let contentString = '<div id="content">' +
+                    '<div id="siteNotice">' + '</div>' +
+                    '<h1 id="firstHeading" class="firstHeading">' +
+                    e.bikeRealtime[i].name + '<br>' +
+                    'Available bikes: ' + e.bikeRealtime[i].bike_available + '<br>' +
+                    'Free stands: ' + (e.bikeRealtime[i].bike_stands - e.bikeRealtime[i].bike_available) +
+                    '</h1>';
+
+                createMarker(e.bikeRealtime[i], contentString, bikeIcon)
+            }
 
             for (let i = 0; i < e.busStations.length; i++) {
                 let contentString = '<div id="content">' +
@@ -39,7 +41,7 @@ export default class MapController {
                     'Routes: ' + e.busStations[i].routes + '<br>' +
                     '</h1>';
 
-                createMarker(e.busStations[i].name, e.busStations[i].latitude, e.busStations[i].longitude, contentString)
+                createMarker(e.busStations[i], contentString, busIcon)
             }
 
 
@@ -51,12 +53,13 @@ export default class MapController {
                 }
             }
 
-            function createMarker(title, lat, lon, contentString) {
+            function createMarker(mark, contentString, icon) {
                 let marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(lat, lon),
+                    position: new google.maps.LatLng(mark.latitude, mark.longitude),
                     map: that.map,
-                    title: title,
+                    title: mark.name,
                     contentString: contentString,
+                    icon: icon
                 });
                 google.maps.event.addListener(marker, 'click', function () {
                     infoWindow.setContent(marker.contentString);

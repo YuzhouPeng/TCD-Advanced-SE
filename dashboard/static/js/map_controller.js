@@ -19,8 +19,8 @@ export default class MapController {
         let that = this;
         addEventListener(DataRetriever.DATA_UPDATED_EVENT, function (e) {
             parseToJson(e);
-            let bikeIcon = "http://127.0.0.1:8887/bike-ico.png";
-            let busIcon = "http://127.0.0.1:8887/bus-ico.png";
+            let bikeIcon = "dashboard/static/img/bike_ico.png";
+            let busIcon = "dashboard/static/img/bus_ico.png";
             for (let i = 0; i < e.bikeRealtime.length; i++) {
                 let contentString = '<div id="content">' +
                     '<div id="siteNotice">' + '</div>' +

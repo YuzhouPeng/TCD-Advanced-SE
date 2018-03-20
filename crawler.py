@@ -9,7 +9,7 @@ BIKE_API = 'https://api.jcdecaux.com/vls/v1/stations?contract=Dublin&apiKey=64a2
 BUS_API_STATIC = 'http://data.dublinked.ie/cgi-bin/rtpi/busstopinformation?stopid=&format=json'
 BUS_API_REALTIME_TEMPLATE = 'https://data.dublinked.ie/cgi-bin/rtpi/realtimebusinformation?stopid={}&format=json'
 STOPS_ID = []
-MIN_ROUTE_TO_FILTER = 6
+MIN_ROUTE_TO_FILTER = 3
 r = redis.StrictRedis(host='redis', port=6379, db=0)
 TIME_FOR_SLEEP = 300
 
@@ -50,6 +50,12 @@ def requestAllBikeRealtime(api=BIKE_API):
 
 
 def requestAllBusStatic(api=BUS_API_STATIC):
+    def isInDublin(latitude, longitude):
+        x = float(latitude)
+        y = float(longitude)
+        if x < 53.42214 and x > 53.226 and y > -6.446 and y < -6.04:
+            return True
+        return False
     def parseBus(dic):
 
         if dic['operators'][0]['name'] != 'bac' and dic['operators'][0]['name'] != 'BE':
@@ -60,9 +66,8 @@ def requestAllBusStatic(api=BUS_API_STATIC):
         longitude = dic['longitude']
         routes = dic['operators'][0]['routes']
         last_updated = None  # TODO
-        if (not latitude) or (not longitude):
-            #         return None
-            pass  # TODO
+        if not isInDublin(latitude, longitude):
+            return None
 
         return {
             'ID': ID,
@@ -118,7 +123,9 @@ def requestABusRealTime(stop_ID, template=BUS_API_REALTIME_TEMPLATE):
     parsed_bus_status_list = map(parseBus, bus_status_list)
     parsed_bus_status = list(parsed_bus_status_list)
     #     print("got it", str(stop_ID))
-    return str(stop_ID), parsed_bus_status
+    return {'ID': str(stop_ID),
+            'emmision_level': len(parsed_bus_status),
+            'comming_routes': parsed_bus_status}
 
 
 def requestAllBusRealTime(stop_ID_list=STOPS_ID, template=BUS_API_REALTIME_TEMPLATE):
@@ -152,7 +159,14 @@ def runDaemon():
         print('BUS_REALTIME writen')
         time.sleep(TIME_FOR_SLEEP)
 
-
+def test():
+    status = requestABusRealTime(2)
+    print(status)
+    # status = requestAllBusStatic()
+    #
+    # print(status[1])
+    # print(len(status))
+    # print(len(STOPS_ID))
 if __name__ == "__main__":
-    runDaemon()
-    # requestAllBikeRealtime()
+    # runDaemon()
+    test()

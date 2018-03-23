@@ -33,13 +33,38 @@ export default class MapController {
                 createMarker(e.bikeRealtime[i], contentString, bikeIcon)
             }
 
+            let busRoutesString;
+
             for (let i = 0; i < e.busStations.length; i++) {
+                if (e.busRealtime[e.busStations[i].ID]) {
+                    let commingRoutes = e.busRealtime[e.busStations[i].ID].comming_routes;
+                    busRoutesString = "<table style=\"width:100%\"><tr>" +
+                        "    <th>Route</th>" +
+                        "    <th>Direction</th>" +
+                        "    <th>Source Time</th>" +
+                        "    <th>Arriveal Time</th>" +
+                        "    <th>Scheduled Time</th>" +
+                        "  </tr>";
+                    for (let j = 0; j < commingRoutes.length; j++) {
+                        busRoutesString = busRoutesString +
+                            "<tr>" +
+                            "    <td>" + commingRoutes[j].route + "</td>" +
+                            "    <td>" + commingRoutes[j].direction + "</td>" +
+                            "    <td>" + commingRoutes[j].source_time + "</td>" +
+                            "    <td>" + commingRoutes[j].arriveal_time + "</td>" +
+                            "    <td>" + commingRoutes[j].scheduled_time + "</td>" +
+                            "</tr>"
+                    }
+                } else {
+                    busRoutesString = "No comming bus.";
+                }
+
                 let contentString = '<div id="content">' +
                     '<div id="siteNotice">' + '</div>' +
                     '<h1 id="firstHeading" class="firstHeading">' +
                     'No.' + e.busStations[i].ID + ': ' + e.busStations[i].name + '<br>' +
                     'Routes: ' + e.busStations[i].routes + '<br>' +
-                    '</h1>';
+                    '</h1>' + busRoutesString;
 
                 createMarker(e.busStations[i], contentString, busIcon)
             }

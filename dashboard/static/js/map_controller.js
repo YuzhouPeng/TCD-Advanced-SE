@@ -48,11 +48,11 @@ export default class MapController {
                     for (let j = 0; j < commingRoutes.length; j++) {
                         busRoutesString = busRoutesString +
                             "<tr>" +
-                            "    <td>" + commingRoutes[j].route + "</td>" +
-                            "    <td>" + commingRoutes[j].direction + "</td>" +
-                            "    <td>" + commingRoutes[j].source_time + "</td>" +
-                            "    <td>" + commingRoutes[j].arriveal_time + "</td>" +
-                            "    <td>" + commingRoutes[j].scheduled_time + "</td>" +
+                            "    <td align=\"center\">" + commingRoutes[j].route + "</td>" +
+                            "    <td align=\"center\">" + commingRoutes[j].direction + "</td>" +
+                            "    <td align=\"center\">" + commingRoutes[j].source_time.slice(-8) + "</td>" +
+                            "    <td align=\"center\">" + commingRoutes[j].arriveal_time.slice(-8) + "</td>" +
+                            "    <td align=\"center\">" + commingRoutes[j].scheduled_time.slice(-8) + "</td>" +
                             "</tr>"
                     }
                 } else {

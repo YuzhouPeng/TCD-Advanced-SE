@@ -107,7 +107,4 @@ venv.bak/
 # custom
 *.sqlite3
 .idea/
-node_modules
-build
-*.log
 dump.rdb

@@ -108,3 +108,4 @@ venv.bak/
 *.sqlite3
 .idea/
 dump.rdb
+!/frontend/build/

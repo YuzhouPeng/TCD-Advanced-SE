@@ -8,7 +8,7 @@
 
     <section id="sidebar">
       <ul>
-        <li v-for="view in views" :key="view.id" :index="views.indexOf(view)" class="sidebar-item" @click="changeView">{{view.title}}</li>
+        <li v-for="(view, index) in views" :key="index" :index="index" :class="['bar-item', {'active' : index === currentIndex}]" @click="changeView">{{view.title}}</li>
       </ul>
     </section>
 
@@ -52,18 +52,14 @@ export default {
     }
   },
   methods: {
-    created () {
-
-    },
     logout () {
-
+      // TODO: Logout
     },
     changeView (e) {
-      let self = this
-      let index = e.target.getAttribute('index')
-      if (self.currentIndex !== index) {
-        this.$router.push(self.views[index].route)
-        self.currentIndex = index
+      let index = parseInt(e.target.getAttribute('index'))
+      if (this.currentIndex !== index) {
+        this.$router.push(this.views[index].route)
+        this.currentIndex = index
       }
     }
   }
@@ -72,9 +68,7 @@ export default {
 
 <style>
 #app {
-  font-family: Avenir, Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Avenir', Arial, Helvetica, sans-serif;
   text-align: center;
 }
 
@@ -149,7 +143,7 @@ html, body {
   list-style: none;
 }
 
-.sidebar-item {
+.bar-item {
   width: 240px;
   height: 80px;
   line-height: 80px;
@@ -158,13 +152,13 @@ html, body {
   cursor: pointer;
 }
 
-.sidebar-item:hover {
+.bar-item:hover {
   color: #e8491d;
-  background-color: #fff;
 }
 
-.sidebar-item.active {
+.bar-item.active {
   color: #e8491d;
+  background-color: #fff;
 }
 
 /*  views */

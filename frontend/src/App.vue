@@ -154,8 +154,6 @@ html, body {
   background-color: #fff;
 }
 
-/*  views */
-
 #view {
   position: fixed;
   top: 50px;

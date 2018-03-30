@@ -19,14 +19,7 @@
 </template>
 
 <script>
-import Station from '@/components/Station'
-import Emission from '@/components/Emission'
-
 export default {
-  components: {
-    Emission,
-    Station
-  },
   name: 'App',
   data () {
     return {

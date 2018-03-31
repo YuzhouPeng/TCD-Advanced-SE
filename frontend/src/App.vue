@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     logout () {
-      // TODO: Logout
+      window.location='/logout'
     },
     changeView (e) {
       let index = parseInt(e.target.getAttribute('index'))

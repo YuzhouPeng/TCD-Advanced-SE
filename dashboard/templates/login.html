@@ -18,6 +18,15 @@
                 <label><input type="checkbox" value="remember-me" checked="checked">Remember me</label>
             </div>
             {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <ul class='form-errors'>
+                {% for error in form.non_field_errors %}
+                    <p style="color: #ff0000">{{ error }}</p>
+                {% endfor %}
+                </ul>
+            {% endif %}
+
             <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
         </form>
     </body>

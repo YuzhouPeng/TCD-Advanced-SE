@@ -1,11 +1,10 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.views.decorators.http import require_http_methods
 import redis
 
-
-__cache = redis.StrictRedis(host='redis', port=6379)
+__cache = redis.StrictRedis(host='127.0.0.1', port=6379)
 
 
 @login_required
@@ -18,6 +17,8 @@ def check_login(request):
 @require_http_methods('GET')
 def bus_stations(request):
     str_ = __cache.get('BUS_STATIC').decode('utf-8')
+    if not str_:
+        return HttpResponseBadRequest()
     return HttpResponse(str_, content_type='application/json')
 
 
@@ -25,6 +26,8 @@ def bus_stations(request):
 @require_http_methods('GET')
 def bus_realtime(request):
     str_ = __cache.get('BUS_REALTIME').decode('utf-8')
+    if not str_:
+        return HttpResponseBadRequest()
     return HttpResponse(str_, content_type='application/json')
 
 
@@ -32,4 +35,6 @@ def bus_realtime(request):
 @require_http_methods('GET')
 def bike_realtime(request):
     str_ = __cache.get('BIKE_REALTIME').decode('utf-8')
+    if not str_:
+        return HttpResponseBadRequest()
     return HttpResponse(str_, content_type='application/json')

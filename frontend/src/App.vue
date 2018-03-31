@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     logout () {
-      window.location='/logout'
+      window.location = '/logout'
     },
     changeView (e) {
       let index = parseInt(e.target.getAttribute('index'))
@@ -61,7 +61,7 @@ export default {
 
 <style>
 #app {
-  font-family: 'Avenir', Arial, Helvetica, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   text-align: center;
 }
 

@@ -16,6 +16,7 @@ export default {
 
 <style scoped>
 #about {
+  font-family: 'Avenir', Arial, Helvetica, sans-serif;
   overflow-x: hidden;
   overflow-y: scroll;
   width: 100%;

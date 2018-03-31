@@ -122,7 +122,7 @@ html, body {
 #sidebar {
   position: fixed;
   top: 50px;
-  width: 240px;
+  width: 20%;
   height: calc(100vh - 50px);
   border-right: 1px solid #ddd;
   flex-grow: 100;
@@ -137,7 +137,6 @@ html, body {
 }
 
 .bar-item {
-  width: 240px;
   height: 80px;
   line-height: 80px;
   text-align: center;
@@ -152,13 +151,15 @@ html, body {
 .bar-item.active {
   color: #e8491d;
   background-color: #fff;
+  width: calc(100% + 1px);
+  border-right: 1px solid #fff;
 }
 
 #view {
   position: fixed;
   top: 50px;
-  left: 241px;
-  width: calc(100vw - 241px);
+  left: 20%;
+  width: calc(100vw - 20%);
   height: calc(100vh - 50px);
   background-color: #fff;
 }

@@ -37,3 +37,6 @@ class TestCrawler(unittest.TestCase):
         saveToRedis('d', 'b')
         self.assertEqual(crawler.r.get('d'), 'b')
 
+
+if __name__ == '__main__':
+    unittest.main()

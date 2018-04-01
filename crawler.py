@@ -21,7 +21,7 @@ def requestAllBikeRealtime(api=BIKE_API):
     #                  {'name': 'SMITHFIELD NORTH', 'latitude': 53.349562, 'longitude': -6.278198, 'bike_stands': 30, 'bike_available': 26, 'last_update': None}
     #              ]
     def parseBike(dic):
-        name = dic["name"]
+        name = dic['name']
         latitude = dic['position']['lat']
         longitude = dic['position']['lng']
         bike_stands = dic['bike_stands']

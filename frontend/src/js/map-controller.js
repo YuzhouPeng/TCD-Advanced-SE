@@ -1,6 +1,6 @@
 'use strict'
 
-import DataRetriever from "./data_retriever.js"
+import DataRetriever from "./data-retriever.js"
 
 export default class MapController {
 

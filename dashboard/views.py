@@ -16,7 +16,8 @@ def check_login(request):
 @login_required
 @require_http_methods('GET')
 def bus_stations(request):
-    str_ = __cache.get('BUS_STATIC').decode('utf-8')
+    from_redis = __cache.get('BUS_STATIC')
+    str_ = from_redis.decode('utf-8') if from_redis else ''
     if not str_:
         return HttpResponseBadRequest()
     return HttpResponse(str_, content_type='application/json')
@@ -25,7 +26,8 @@ def bus_stations(request):
 @login_required
 @require_http_methods('GET')
 def bus_realtime(request):
-    str_ = __cache.get('BUS_REALTIME').decode('utf-8')
+    from_redis = __cache.get('BUS_REALTIME')
+    str_ = from_redis.decode('utf-8') if from_redis else ''
     if not str_:
         return HttpResponseBadRequest()
     return HttpResponse(str_, content_type='application/json')
@@ -34,7 +36,8 @@ def bus_realtime(request):
 @login_required
 @require_http_methods('GET')
 def bike_realtime(request):
-    str_ = __cache.get('BIKE_REALTIME').decode('utf-8')
+    from_redis = __cache.get('BIKE_REALTIME')
+    str_ = from_redis.decode('utf-8') if from_redis else ''
     if not str_:
         return HttpResponseBadRequest()
     return HttpResponse(str_, content_type='application/json')

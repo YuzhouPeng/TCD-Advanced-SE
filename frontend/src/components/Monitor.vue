@@ -83,7 +83,7 @@ export default {
           name: '1213',
           availableBike: null,
           emissionLevel: 100
-        },
+        }
       ]
     }
   }

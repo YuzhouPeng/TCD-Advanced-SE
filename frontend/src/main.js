@@ -6,6 +6,7 @@ import router from './router'
 import * as VueResource from 'vue-resource'
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import DataRetriever from './js/data_retriever'
 
 Vue.config.productionTip = false
 Vue.use(VueResource)
@@ -17,3 +18,6 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
+
+let dataRetriever = new DataRetriever()
+dataRetriever.start()

@@ -141,3 +141,15 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "frontend/dist/static"),
 ]
+
+import sys
+
+if 'test' in sys.argv:
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'citymanager',
+        'USER': 'root',
+        # change password to your own mysql password
+        'PASSWORD': '123456ab',
+        'HOST': '127.0.0.1',
+    }

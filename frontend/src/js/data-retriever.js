@@ -1,13 +1,10 @@
 'use strict'
 
-const URL = 'http://localhost:8000/'
+const URL = 'http://127.0.0.1:8000/api/'
 const FETCH_INTERVAL = 1000 * 180
 
 export default class DataRetriever {
   constructor () {
-    this.jsonBusRealtime = null
-    this.jsonBusStations = null
-    this.jsonBikeRealtime = null
   }
 
   static get DATA_UPDATED_EVENT () {
@@ -19,7 +16,7 @@ export default class DataRetriever {
   }
 
   _fetch () {
-    let urls = {
+    const urls = {
       busRealtime: URL + 'bus_realtime',
       busStations: URL + 'bus_stations',
       bikeRealtime: URL + 'bike_realtime'

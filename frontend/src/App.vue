@@ -8,22 +8,28 @@
 
     <section id="sidebar">
       <ul>
-        <li v-for="(view, index) in views" :key="index" :index="index" :class="['bar-item', {'active' : index === currentIndex}]" @click="changeView">{{view.title}}</li>
+        <li v-for="(view, index) in views" :key="index" :index="index" :class="['bar-item', {'active': index === currentIndex}]" @click="changeView">{{view.title}}</li>
       </ul>
     </section>
 
     <section id="view">
-      <router-view></router-view>
+      <component v-for="(component, index) in componentNames" :is="component"></component>
     </section>
   </div>
 </template>
 
 <script>
+import Station from "./components/Station";
+import Emission from "./components/Emission";
+import Monitor from "./components/Monitor";
+import About from "./components/About"
 export default {
   name: 'App',
+  components: {Station, Emission, Monitor, About},
   data () {
     return {
       currentIndex: 0,
+      componentNames: ['station', 'emission', 'monitor', 'about'],
       views: [
         {
           title: 'Station',
@@ -51,6 +57,7 @@ export default {
     changeView (e) {
       let index = parseInt(e.target.getAttribute('index'))
       if (this.currentIndex !== index) {
+        // TODO: change view
         this.$router.push(this.views[index].route)
         this.currentIndex = index
       }

@@ -1,16 +1,21 @@
 'use strict'
 
-import DataRetriever from "./data-retriever.js"
+import DataRetriever from './data-retriever'
+import GoogleMap from 'google-maps'
 
 export default class MapController {
+  constructor () {
+    GoogleMap.KEY = 'AIzaSyAN-k2Z0JpTVPPzGkt61YImxgxTf4PUzk0'
+    GoogleMap.LANGUAGE = 'en'
 
-  constructor() {
-    this.canvas = document.getElementById('map')
-    this.options = {
-      center: new google.maps.LatLng(53.343507, -6.253920),
-      zoom: 16
-    }
-    this.map = new google.maps.Map(this.canvas, this.options)
+    GoogleMap.load(google => {
+      let canvas = document.getElementById('map-station')
+      let options = {
+        center: new google.maps.LatLng(53.343507, -6.253920),
+        zoom: 16
+      }
+      this.map = new google.maps.Map(canvas, options)
+    })
 
     this.addListeners()
   }
@@ -19,26 +24,25 @@ export default class MapController {
     let that = this
     addEventListener(DataRetriever.DATA_UPDATED_EVENT, function (e) {
       parseToJson(e)
-      let bikeIcon = "/static/img/bike_ico.png"
-      let busIcon = "/static/img/bus_ico.png"
+      let bikeIcon = "http://127.0.0.1:8887/bike_icon.png"
+      let busIcon = "http://127.0.0.1:8887/bus_icon.png"
       for (let i = 0; i < e.bikeRealtime.length; i++) {
         let contentString = '<div id="content">' +
           '<div id="siteNotice">' + '</div>' +
-          '<h1 id="firstHeading" class="firstHeading">' +
+          '<h3 id="firstHeading" style="color: black" class="firstHeading">' +
           e.bikeRealtime[i].name + '<br>' +
           'Available bikes: ' + e.bikeRealtime[i].bike_available + '<br>' +
           'Free stands: ' + (e.bikeRealtime[i].bike_stands - e.bikeRealtime[i].bike_available) +
-          '</h1>'
+          '</h3>'
 
         createMarker(e.bikeRealtime[i], contentString, bikeIcon)
       }
 
       let busRoutesString
-
       for (let i = 0; i < e.busStations.length; i++) {
         if (e.busRealtime[e.busStations[i].ID]) {
           let commingRoutes = e.busRealtime[e.busStations[i].ID].comming_routes
-          busRoutesString = "<table style=\"width:100%\"><tr>" +
+          busRoutesString = "<table style=\"width:100%; color: black\"><tr>" +
             "    <th>Route</th>" +
             "    <th>Direction</th>" +
             "    <th>Source Time</th>" +
@@ -61,10 +65,10 @@ export default class MapController {
 
         let contentString = '<div id="content">' +
           '<div id="siteNotice">' + '</div>' +
-          '<h1 id="firstHeading" class="firstHeading">' +
+          '<h3 id="firstHeading" style="color: black" class="firstHeading">' +
           'No.' + e.busStations[i].ID + ': ' + e.busStations[i].name + '<br>' +
           'Routes: ' + e.busStations[i].routes + '<br>' +
-          '</h1>' + busRoutesString
+          '</h3>' + busRoutesString
 
         createMarker(e.busStations[i], contentString, busIcon)
       }
@@ -88,14 +92,10 @@ export default class MapController {
         })
         google.maps.event.addListener(marker, 'click', function () {
           infoWindow.setContent(marker.contentString)
-          infoWindow.open(map, marker)
+          infoWindow.open(this.map, marker)
           that.map.panTo(marker.getPosition())
         })
       }
-
     })
-  }
-
-  _updateMarkers() {
   }
 }

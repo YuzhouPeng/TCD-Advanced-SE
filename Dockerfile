@@ -4,3 +4,4 @@ RUN mkdir /code
 WORKDIR /code
 ADD requirements.txt /code
 RUN pip install -r requirements.txt
+RUN apt-get update && apt-get install -y nodejs-legacy && apt-get -y install npm

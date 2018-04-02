@@ -1,8 +1,8 @@
 version: '3'
 
 services:
-  db:
-    image: postgres:10
+#  db:
+#    image: postgres:10
   redis:
     image: redis:4
   web:
@@ -11,9 +11,9 @@ services:
       - .:/code
     ports:
       - 80:8000
-    command: python3 manage.py runserver 0.0.0.0:8000
+    command: bash -c " pwd && cd frontend && pwd && ls -a && npm install && npm build && cd .. && python3 manage.py runserver 0.0.0.0:8000"
     depends_on:
-      - db
+#      - db
       - redis
   crawler:
     build: .

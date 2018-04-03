@@ -26,3 +26,8 @@ dataRetriever.start()
 
 /* eslint-disable no-new */
 new MapController()
+
+import * as Map from './js/initmap'
+
+window.initMap = Map.initMap
+Map.loadGoogleMap()

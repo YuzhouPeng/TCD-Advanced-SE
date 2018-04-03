@@ -1,5 +1,5 @@
 <template>
-    <div id="emission">
+  <div id="emission">
     <div id="map-emission"></div>
   </div>
 </template>

@@ -13,16 +13,16 @@
     </section>
 
     <section id="view">
-      <component v-for="(component, index) in componentNames" :is="component"></component>
+      <component v-for="component in dynamicComponent" :is="component"></component>
     </section>
   </div>
 </template>
 
 <script>
-import Station from "./components/Station";
-import Emission from "./components/Emission";
-import Monitor from "./components/Monitor";
-import About from "./components/About"
+import Station from './components/Station'
+import Emission from './components/Emission'
+import Monitor from './components/Monitor'
+import About from './components/About'
 export default {
   name: 'App',
   components: {Station, Emission, Monitor, About},
@@ -61,6 +61,17 @@ export default {
         this.$router.push(this.views[index].route)
         this.currentIndex = index
       }
+    }
+  },
+  computed: {
+    dynamicComponent () {
+      Array.prototype.move = function (from, to) {
+        this.splice(to, 0, this.splice(from, 1)[0])
+      }
+
+      let componentNamesLocal = this.componentNames.slice()
+      componentNamesLocal.move(this.currentIndex, 0)
+      return componentNamesLocal
     }
   }
 }

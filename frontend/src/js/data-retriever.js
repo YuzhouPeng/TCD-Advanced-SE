@@ -4,9 +4,6 @@ const URL = 'http://127.0.0.1:8000/api/'
 const FETCH_INTERVAL = 1000 * 180
 
 export default class DataRetriever {
-  constructor () {
-  }
-
   static get DATA_UPDATED_EVENT () {
     return 'DATA_UPDATED_EVENT'
   }

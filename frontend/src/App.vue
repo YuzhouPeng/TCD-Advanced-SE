@@ -13,7 +13,7 @@
     </section>
 
     <section id="view">
-      <component v-for="(component, index) in componentNames" :is="component"></component>
+      <component v-for="component in dynamicComponent" :is="component"></component>
     </section>
   </div>
 </template>
@@ -61,6 +61,17 @@ export default {
         this.$router.push(this.views[index].route)
         this.currentIndex = index
       }
+    }
+  },
+  computed:{
+    dynamicComponent() {
+      Array.prototype.move = function (from, to) {
+        this.splice(to, 0, this.splice(from, 1)[0]);
+      };
+
+      let componentNamesLocal = this.componentNames.slice()
+      componentNamesLocal.move(this.currentIndex,0)
+      return componentNamesLocal
     }
   }
 }

@@ -8,7 +8,7 @@ BIKE_API = 'https://api.jcdecaux.com/vls/v1/stations?contract=Dublin&apiKey=64a2
 BUS_API_STATIC = 'http://data.dublinked.ie/cgi-bin/rtpi/busstopinformation?stopid=&format=json'
 BUS_API_REALTIME_TEMPLATE = 'https://data.dublinked.ie/cgi-bin/rtpi/realtimebusinformation?stopid={}&format=json'
 STOPS_ID = []
-MIN_ROUTE_TO_FILTER =  5
+MIN_ROUTE_TO_FILTER = 5
 r = redis.StrictRedis(host='redis', port=6379, db=0)  # TODO change it back to redis
 TIME_FOR_SLEEP = 180
 
@@ -168,7 +168,10 @@ def runDaemon():
         print('BIKE_REALTIME written')
         print('num of Top_ID are: ', len(STOPS_ID))
         # attention! here is a trap, default parameter will be set when initialized
+        start = time.time()
         bus_realtime = requestAllBusRealTime(STOPS_ID)
+        end = time.time()
+        print('request all of the realtime bus status take: ' ,(end - start), 'seconds')
         saveToRedis('BUS_REALTIME', bus_realtime)
         print('BUS_REALTIME writen')
         time.sleep(TIME_FOR_SLEEP)
@@ -192,5 +195,6 @@ def test():
 
 
 if __name__ == "__main__":
+    # print(sadfsfda)
     runDaemon()
     # test()

@@ -80,7 +80,7 @@ DATABASES = {
         'NAME': 'citymanager',
         'USER': 'root',
         'PASSWORD': 'root',
-        'HOST': '127.0.0.1',
+        'HOST': '45.77.199.88',
     }
 }
 

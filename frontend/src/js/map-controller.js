@@ -18,7 +18,7 @@ export function initMap () {
 function mapListener () {
   // let that = this
   addEventListener(DataRetriever.DATA_UPDATED_EVENT, function (e) {
-    parseToJson(e)
+    // parseToJson(e)
     let bikeIcon = 'http://127.0.0.1:8887/bike_icon.png'
     let busIcon = 'http://127.0.0.1:8887/bus_icon.png'
     for (let i = 0; i < e.bikeRealtime.length; i++) {

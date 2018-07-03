@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+#  db:
+#    image: postgres:10
+  redis:
+    image: redis:4
+    restart: always
+  web:
+    build: .
+    volumes:
+      - .:/code
+    restart: always
+    ports:
+      - 80:8000
+    command: bash -c " pwd && cd frontend && pwd && ls -a && npm install && npm build && cd .. && python3 manage.py runserver 0.0.0.0:8000"
+    depends_on:
+#      - db
+      - redis
+  crawler:
+    build: .
+    volumes:
+      -  .:/code
+    restart: always
+    command: bash -c " pwd && python3 crawler.py"
+    depends_on:
+      - redis
